@@ -1,3 +1,4 @@
 temp.txt
 network-security-system-venv
 .env
+__pycache__
