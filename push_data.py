@@ -52,4 +52,4 @@ if __name__=='__main__':
     records=networkobj.csv_to_json(file_path=FILE_PATH)
     # print(records)
     no_of_records=networkobj.insert_data_to_db(records)
-    print(no_of_records)
+    logger.info(f'{no_of_records} records inserted to MongoDB successfully!')
