@@ -3,3 +3,4 @@ network-security-system-venv
 .env
 __pycache__
 mongodb_sample.py
+logs/
