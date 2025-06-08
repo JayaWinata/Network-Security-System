@@ -18,7 +18,8 @@ class DataIngestionConfig:
         )
         self.feature_store_file_path = os.path.join(
             self.data_ingestion_dir,
-            constant.DATA_INGESTION_FEATURE_STORE_DIR
+            constant.DATA_INGESTION_FEATURE_STORE_DIR,
+            constant.FILE_NAME
         )
         self.training_file_path: str = os.path.join(
                 self.data_ingestion_dir, constant.DATA_INGESTION_INGESTED_DIR, constant.TRAIN_FILE_NAME

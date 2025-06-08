@@ -4,3 +4,4 @@ network-security-system-venv
 __pycache__
 mongodb_sample.py
 logs/
+Artifacts/
