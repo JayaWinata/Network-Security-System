@@ -33,6 +33,13 @@ def save_numpy_array_data(file_path: str, array: np.array):
     except Exception as e:
         raise NetworkSecurityException(e, sys)
 
+def load_numpy_array_data(file_path: str):
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+
 def save_object(file_path: str, obj: object):
     try:
         logger.info("Entered the save_object method")
@@ -42,3 +49,15 @@ def save_object(file_path: str, obj: object):
         logger.info("Exited the save_object method")
     except Exception as e:
         raise NetworkSecurityException(e, sys)
+
+def load_object(file_path: str):
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The file {file_path} does not exist")
+        with open(file_path, 'rb') as file_obj:
+            print(file_obj)
+            return pickle.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+
+
