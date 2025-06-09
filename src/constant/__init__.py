@@ -34,3 +34,18 @@ DATA_VALIDATION_VALID_DIR = 'valid'
 DATA_VALIDATION_INVALID_DIR = 'invalid'
 DATA_VALIDATION_DRIFT_REPORT_DIR = 'drift_report'
 DATA_VALIDATION_DRIFT_REPORT_FILENAME = 'report.yaml'
+PREPROCESSING_OBJECT_FILE_NAME = 'preprocessing.pkl'
+
+'''
+Data Transformation Constants
+'''
+DATA_TRANSFORMATION_DIR_NAME = 'data_transformation'
+DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR = 'transformed'
+DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR = 'transformed_object'
+
+
+DATA_TRANSFORMATION_IMPUTER_PARAMS = {
+    'missing_values': np.nan,
+    'n_neighbors': 3,
+    'weights': 'uniform'
+}
