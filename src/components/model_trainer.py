@@ -12,12 +12,29 @@ from src.utils.utils import save_object, load_object, load_numpy_array_data
 from src.utils.ml_utils.utils import get_classification_score, evaluate_models
 from src.utils.ml_utils.estimator import NetworkModel
 import os, sys
+import mlflow
 
 class ModelTrainer:
     def __init__(self, model_trainer_config: ModelTrainerConfig, data_transformation_artifact: DataTransformationArtifact):
         try:
             self.model_trainer_config = model_trainer_config
             self.data_transformation_artifact = data_transformation_artifact
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+
+    def track_model(self, best_model, classification_metric, best_model_name):
+        try:
+            with mlflow.start_run():
+                f1_score = classification_metric.f1_score
+                precision_score = classification_metric.precision_score
+                recall_score = classification_metric.recall_score
+
+                mlflow.log_metrics({
+                    'f1_score': f1_score,
+                    'precision_score': precision_score,
+                    'recall_score': recall_score
+                })
+                mlflow.sklearn.log_model(best_model, best_model_name)
         except Exception as e:
             raise NetworkSecurityException(e, sys)
 
@@ -49,6 +66,9 @@ class ModelTrainer:
 
         y_train_pred = best_model.predict(X_train)
         classification_train_metric = get_classification_score(y_train, y_train_pred)
+
+        # Mlflow Tracking
+        self.track_model(best_model, classification_train_metric, best_model_name)
 
         y_test_pred = best_model.predict(X_test)
         classification_test_metric = get_classification_score(y_test, y_test_pred)

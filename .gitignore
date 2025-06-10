@@ -5,3 +5,4 @@ __pycache__
 mongodb_sample.py
 logs/
 Artifacts/
+mlruns/

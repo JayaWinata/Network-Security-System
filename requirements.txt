@@ -7,5 +7,6 @@ pymongo[srv]==4.7
 scikit-learn
 pyaml
 dill
+mlflow
 
 -e .

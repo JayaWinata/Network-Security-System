@@ -8,7 +8,9 @@ src/__init__.py
 src/cloud/__init__.py
 src/components/__init__.py
 src/components/data_ingestion.py
+src/components/data_transformation.py
 src/components/data_validation.py
+src/components/model_trainer.py
 src/constant/__init__.py
 src/entity/__init__.py
 src/entity/artifact_entity.py
@@ -20,3 +22,6 @@ src/logging/logger.py
 src/pipeline/__init__.py
 src/utils/__init__.py
 src/utils/utils.py
+src/utils/ml_utils/__init__.py
+src/utils/ml_utils/estimator.py
+src/utils/ml_utils/utils.py
