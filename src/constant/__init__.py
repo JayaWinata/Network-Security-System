@@ -2,6 +2,8 @@ import os
 import sys
 import numpy as np
 import pandas as pd
+from dotenv import load_dotenv
+load_dotenv()
 
 '''
 Common Constants
@@ -61,3 +63,10 @@ MODEL_TRAINER_TRAINED_MODEL_DIR = 'trained_model'
 MODEL_TRAINER_TRAINED_MODEL_NAME = 'model.pkl'
 MODEL_TRAINER_EXPECTED_SCORE = 0.6
 MODEL_TRAINER_OVERFIT_UNDERFIT_THRESHOLD = 0.05
+
+'''
+Cloud related constants
+'''
+
+BLOB_URL = os.getenv('BLOB_URL')
+BLOB_URL_PARAMS = os.getenv('BLOB_URL_PARAMS')
