@@ -8,6 +8,10 @@ on:
       - "README.md"
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   integration:
     name: Continuous integration
