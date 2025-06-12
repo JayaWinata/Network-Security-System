@@ -55,9 +55,6 @@ jobs:
       - name: Chekcout code
         uses: actions/checkout@v3
 
-      - name: Set up Azure CLI
-        uses: azure/cli@v1
-
       - name: Azure Login
         uses: azure/login@v1
         with:
