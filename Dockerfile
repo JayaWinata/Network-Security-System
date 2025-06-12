@@ -6,13 +6,13 @@ WORKDIR /app
 
 # Copy only the requirements file first to leverage Docker's build cache
 # If requirements.txt doesn't change, this layer can be cached, speeding up rebuilds
-COPY requirements.txt .
+COPY docker_requirements.txt .
 
 # Install Python dependencies
 # Combine apt-get update and pip install into a single RUN command
 # to reduce the number of layers and improve build cache efficiency.
 RUN apt-get update && \
-    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r docker_requirements.txt && \
     rm -rf /var/lib/apt/lists/*
 
 # Install AzCopy
