@@ -47,6 +47,7 @@ jobs:
           docker push ${{ secrets.CR_LOGIN_SERVER }}/my_app:${{ github.sha }}
 
   deploy:
+    name: Continuous Deployment
     needs: build-and-push-image
     runs-on: self-hosted
     steps:
@@ -104,4 +105,3 @@ jobs:
           VM_NAME: ${{ secrets.VM_NAME }}
           APP_PORT: ${{ secrets.APP_PORT }}
           CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-
