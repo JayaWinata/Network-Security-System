@@ -55,6 +55,9 @@ jobs:
       - name: Chekcout code
         uses: actions/checkout@v3
 
+      - name: Install Azure CLI using a marketplace action
+        uses: pietrobolcato/install-azure-cli-action@main
+
       - name: Azure login
         uses: azure/login@v2
         with:
