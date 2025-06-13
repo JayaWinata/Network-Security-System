@@ -20,8 +20,8 @@ os.environ["MLFLOW_TRACKING_PASSWORD"]= os.getenv('MLFLOW_TRACKING_PASSWORD')
 
 
 mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
-mlflow.set_tracking_username(os.getenv("MLFLOW_TRACKING_USERNAME"))
-mlflow.set_tracking_password(os.getenv("MLFLOW_TRACKING_PASSWORD"))
+# mlflow.set_tracking_username(os.getenv("MLFLOW_TRACKING_USERNAME"))
+# mlflow.set_tracking_password(os.getenv("MLFLOW_TRACKING_PASSWORD"))
 
 import dagshub
 dagshub.init(repo_owner='jayawinata100', repo_name='Network-Security-System', mlflow=True)
