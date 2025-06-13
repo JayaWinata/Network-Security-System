@@ -77,7 +77,7 @@ jobs:
           APP_CONTAINER_PORT="${{ secrets.APP_PORT }}"
           APP_CONTAINER_NAME="${{ secrets.CONTAINER_NAME }}"
 
-          echo "Initiating deployment of image $IMAGE_FULL_TAG to VM $TARGET_VM_NAME in resource group $TARGET_VM_RESOURCE_GROUP..."
+          # echo "Initiating deployment of image $IMAGE_FULL_TAG to VM $TARGET_VM_NAME in resource group $TARGET_VM_RESOURCE_GROUP..."
 
           az vm run-command invoke \
             --resource-group "$TARGET_VM_RESOURCE_GROUP" \
@@ -85,30 +85,31 @@ jobs:
             --command-id RunShellScript \
             --scripts \
             "
-            echo 'Checking Docker service status on VM...'
-            sudo systemctl is-active docker || (echo 'Docker not running, attempting to start...' && sudo systemctl start docker)
 
-            echo 'Logging into Azure Container Registry from VM using Managed Identity...'
-            az acr login --name ${{ secrets.CR_LOGIN_SERVER }} --identity
+          echo 'Checking Docker service status on VM...'
+          sudo systemctl is-active docker || (echo 'Docker not running, attempting to start...' && sudo systemctl start docker)
 
-            echo 'Pulling new Docker image: $IMAGE_FULL_TAG...'
-            docker pull $IMAGE_FULL_TAG
+          echo 'Logging into Azure Container Registry from VM using Managed Identity...'
+          az acr login --name ${{ secrets.CR_LOGIN_SERVER }} --identity
 
-            echo 'Stopping and removing old container (if existing containers with name $APP_CONTAINER_NAME are found)...'
+          echo 'Pulling new Docker image: $IMAGE_FULL_TAG...'
+          docker pull $IMAGE_FULL_TAG
+
+          echo 'Stopping and removing old container (if existing containers with name $APP_CONTAINER_NAME are found)...'
             # Check for any running or stopped container with the specified name
-            if [ \$(docker ps -a -q -f name=$APP_CONTAINER_NAME) ]; then
-                docker stop $APP_CONTAINER_NAME || true # Stop, ignoring errors if already stopped
-                docker rm $APP_CONTAINER_NAME || true # Remove, ignoring errors if already removed
-            fi
+          if [ \$(docker ps -a -q -f name=$APP_CONTAINER_NAME) ]; then
+              docker stop $APP_CONTAINER_NAME || true # Stop, ignoring errors if already stopped
+              docker rm $APP_CONTAINER_NAME || true # Remove, ignoring errors if already removed
+          fi
 
-            echo 'Starting new container...'
+          echo 'Starting new container...'
             # Run the new container in detached mode (-d), restart it automatically,
             # assign it the specified name, and map the application port.
-            docker run -d --restart always --name $APP_CONTAINER_NAME -p $APP_CONTAINER_PORT:$APP_CONTAINER_PORT $IMAGE_FULL_TAG
+          docker run -d --restart always --name $APP_CONTAINER_NAME -p $APP_CONTAINER_PORT:$APP_CONTAINER_PORT $IMAGE_FULL_TAG
 
-            echo 'Deployment on Azure VM complete!'
-            # --- End of commands executed on the Azure VM ---
-            "
+          echo 'Deployment on Azure VM complete!'
+          # --- End of commands executed on the Azure VM ---
+          "
         env:
           CR_LOGIN_SERVER: ${{ secrets.CR_LOGIN_SERVER }}
           VM_RESOURCE_GROUP: ${{ secrets.VM_RESOURCE_GROUP }}
