@@ -55,24 +55,50 @@ jobs:
     name: Continuous Deployment
     needs: build-and-push-image
     runs-on: self-hosted
-
     steps:
-      - name: Checkout code
+      - name: Chekcout code
         uses: actions/checkout@v3
 
-      - name: Set image tag
-        id: vars
-        run: echo "IMAGE=${{ secrets.CR_LOGIN_SERVER }}/my_app:${{ github.sha }}" >> "$GITHUB_ENV"
+      - name: Install Azure CLI using a marketplace action
+        uses: pietrobolcato/install-azure-cli-action@main
 
-      - name: Deploy Docker Image to Azure VM via SSH
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Azure login
+        uses: azure/login@v2
         with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: azureuser
-          key: ${{ secrets.AZURE_VM_SSH_KEY }}
-          script: |
-            echo "Logging into ACR..."
-            az acr login --name ${{ secrets.ACR_NAME }} --identity
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            echo "Running deployment script..."
-            bash ~/deploy_container.sh "$IMAGE"
+      - name: Deploy Docker Image to Azure VM
+        run: |
+          IMAGE="${{ secrets.CR_LOGIN_SERVER }}/my_app:${{ github.sha }}"
+          RG="${{ secrets.VM_RESOURCE_GROUP }}"
+          VM="${{ secrets.VM_NAME }}"
+          PORT="${{ secrets.APP_PORT }}"
+          NAME="${{ secrets.CONTAINER_NAME }}"
+          ACR_USERNAME="${{ secrets.REGISTRY_USERNAME }}"
+          ACR_PASSWORD="${{ secrets.REGISTRY_PASSWORD }}"
+
+          az vm run-command invoke \
+            --resource-group "$RG" \
+            --name "$VM" \
+            --command-id RunShellScript \
+            --scripts "
+              echo 'Checking Docker service...'
+              sudo systemctl is-active docker || sudo systemctl start docker
+
+              echo 'Logging into ACR...'
+              echo '$ACR_PASSWORD' | docker login ${{ secrets.CR_LOGIN_SERVER }} -u '$ACR_USERNAME' --password-stdin
+
+              echo 'Pulling new image...'
+              docker pull $IMAGE
+
+              echo 'Stopping and removing existing container...'
+              docker stop $NAME || true
+              docker rm $NAME || true
+
+              echo 'Starting new container...'
+              docker run -d --restart always --name $NAME -p $PORT:$PORT $IMAGE
+
+              echo 'Deployment complete.'
+            "
