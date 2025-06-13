@@ -81,9 +81,9 @@ jobs:
           MONGO_DB_URL="${{ secrets.MONGO_DB_URL }}"
           BLOB_URL="${{ secrets.BLOB_URL }}"
           BLOB_URL_PARAMS="${{ secrets.BLOBL_URL_PARAMS }}"
-          MLFLOW_URI="${{ secrets.MLFLOW_TRACKING_URI }}"
-          MLFLOW_USER="${{ secrets.MLFLOW_TRACKING_USERNAME }}"
-          MLFLOW_PASS="${{ secrets.MLFLOW_TRACKING_PASSWORD }}"
+          export MLFLOW_TRACKING_URI="${{ secrets.MLFLOW_TRACKING_URI }}"
+          export MLFLOW_TRACKING_USERNAME="${{ secrets.MLFLOW_TRACKING_USERNAME }}"
+          export MLFLOW_TRACKING_PASSWORD="${{ secrets.MLFLOW_TRACKING_PASSWORD }}"
 
           az vm run-command invoke \
             --resource-group "$RG" \
@@ -110,9 +110,9 @@ jobs:
                 -e MONGO_DB_URL='$MONGO_DB_URL' \
                 -e BLOB_URL='$BLOB_URL' \
                 -e BLOB_URL_PARAMS='$BLOB_URL_PARAMS' \
-                -e MLFLOW_TRACKING_URI='$MLFLOW_URI' \
-                -e MLFLOW_TRACKING_USERNAME='$MLFLOW_USER' \
-                -e MLFLOW_TRACKING_PASSWORD='$MLFLOW_PASS' \
+                -e MLFLOW_TRACKING_URI='$MLFLOW_TRACKING_URI' \
+                -e MLFLOW_TRACKING_USERNAME='$MLFLOW_TRACKING_USERNAME' \
+                -e MLFLOW_TRACKING_PASSWORD='$MLFLOW_TRACKING_PASSWORD' \
                 $IMAGE
 
               echo 'Deployment complete.'
