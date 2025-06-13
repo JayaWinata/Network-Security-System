@@ -78,6 +78,9 @@ jobs:
           NAME="${{ secrets.CONTAINER_NAME }}"
           ACR_USERNAME="${{ secrets.REGISTRY_USERNAME }}"
           ACR_PASSWORD="${{ secrets.REGISTRY_PASSWORD }}"
+          MONGO_DB_URL="${{ secrets.MONGO_DB_URL }}"
+          BLOB_URL="${{ secrets.BLOB_URL }}"
+          BLOB_URL_PARAMS="${{ secrets.BLOBL_URL_PARAMS }}"
 
           az vm run-command invoke \
             --resource-group "$RG" \
@@ -98,7 +101,13 @@ jobs:
               docker rm $NAME || true
 
               echo 'Starting new container...'
-              docker run -d --restart always --name $NAME -p $PORT:$PORT $IMAGE
+              docker run -d --restart always \
+                --name $NAME \
+                -p $PORT:$PORT \
+                -e MONGO_DB_URL='$MONGO_DB_URL' \
+                -e BLOB_URL='$BLOB_URL' \
+                -e BLOB_URL_PARAMS='$BLOB_URL_PARAMS' \
+                $IMAGE
 
               echo 'Deployment complete.'
             "
