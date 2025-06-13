@@ -14,6 +14,10 @@ from src.utils.ml_utils.estimator import NetworkModel
 import os, sys
 import mlflow
 
+os.environ["MLFLOW_TRACKING_URI"]= os.getenv('MLFLOW_TRACKING_URI')
+os.environ["MLFLOW_TRACKING_USERNAME"]= os.getenv('MLFLOW_TRACKING_USERNAME')
+os.environ["MLFLOW_TRACKING_PASSWORD"]= os.getenv('MLFLOW_TRACKING_PASSWORD')
+
 import dagshub
 dagshub.init(repo_owner='jayawinata100', repo_name='Network-Security-System', mlflow=True)
 
