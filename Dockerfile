@@ -1,5 +1,6 @@
 FROM python:3.10-slim-buster
 
+EXPOSE 8000
 WORKDIR /app
 
 COPY docker_requirements.txt .
