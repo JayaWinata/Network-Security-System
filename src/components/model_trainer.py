@@ -13,6 +13,8 @@ from src.utils.ml_utils.utils import get_classification_score, evaluate_models
 from src.utils.ml_utils.estimator import NetworkModel
 import os, sys
 import mlflow
+from dotenv import load_dotenv
+load_dotenv()
 
 os.environ["MLFLOW_TRACKING_URI"]= os.getenv('MLFLOW_TRACKING_URI')
 os.environ["MLFLOW_TRACKING_USERNAME"]= os.getenv('MLFLOW_TRACKING_USERNAME')
