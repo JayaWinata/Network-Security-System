@@ -13,6 +13,7 @@ from src.utils.ml_utils.utils import get_classification_score, evaluate_models
 from src.utils.ml_utils.estimator import NetworkModel
 import os, sys
 import mlflow
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -41,6 +42,8 @@ class ModelTrainer:
 
     def track_model(self, best_model, classification_metric, best_model_name):
         try:
+            mlflow.set_registry_uri(os.getenv("MLFLOW_TRACKING_URI"))
+            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
             with mlflow.start_run():
                 f1_score = classification_metric.f1_score
                 precision_score = classification_metric.precision_score
@@ -52,6 +55,10 @@ class ModelTrainer:
                     'recall_score': recall_score
                 })
                 mlflow.sklearn.log_model(best_model, best_model_name)
+                if tracking_url_type_store != "file":
+                    mlflow.sklearn.log_model(best_model, best_model_name, registered_model_name=best_model)
+                else:
+                    mlflow.sklearn.log_model(best_model, best_model_name)
         except Exception as e:
             raise NetworkSecurityException(e, sys)
 
