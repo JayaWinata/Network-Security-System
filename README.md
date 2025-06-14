@@ -31,6 +31,7 @@ The project follows a modular and scalable architecture, adopting MLOps practice
 | Programming         | Python                                               |
 | Machine Learning    | scikit-learn                                         |
 | Web Framework       | FastAPI                                              |
+| Database            | MongoDB                                              |
 | MLOps               | MLflow, DagsHub                                      |
 | CI/CD               | GitHub Actions                                       |
 | Containerization    | Docker                                               |
