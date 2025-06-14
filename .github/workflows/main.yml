@@ -84,6 +84,8 @@ jobs:
           MLFLOW_TRACKING_URI="${{ secrets.MLFLOW_TRACKING_URI }}"
           MLFLOW_TRACKING_USERNAME="${{ secrets.MLFLOW_TRACKING_USERNAME }}"
           MLFLOW_TRACKING_PASSWORD="${{ secrets.MLFLOW_TRACKING_PASSWORD }}"
+          DAGSHUB_USERNAME="${{ secrets.DAGSHUB_USERNAME }}"
+          DAGSHUB_TOKEN="${{ secrets.DAGSHUB_TOKEN }}"
 
           az vm run-command invoke \
             --resource-group "$RG" \
@@ -117,6 +119,8 @@ jobs:
                 -e MLFLOW_TRACKING_URI='$MLFLOW_TRACKING_URI' \
                 -e MLFLOW_TRACKING_USERNAME='$MLFLOW_TRACKING_USERNAME' \
                 -e MLFLOW_TRACKING_PASSWORD='$MLFLOW_TRACKING_PASSWORD' \
+                -e DAGSHUB_USERNAME='$DAGSHUB_USERNAME' \
+                -e DAGSHUB_TOKEN='$DAGSHUB_TOKEN' \
                 $IMAGE
 
               echo 'Deployment complete.'
