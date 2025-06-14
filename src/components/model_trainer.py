@@ -19,6 +19,8 @@ load_dotenv()
 os.environ["MLFLOW_TRACKING_URI"]= os.getenv('MLFLOW_TRACKING_URI')
 os.environ["MLFLOW_TRACKING_USERNAME"]= os.getenv('MLFLOW_TRACKING_USERNAME')
 os.environ["MLFLOW_TRACKING_PASSWORD"]= os.getenv('MLFLOW_TRACKING_PASSWORD')
+os.environ["DAGSHUB_USERNAME"] = os.getenv("DAGSHUB_USERNAME")
+os.environ["DAGSHUB_TOKEN"] = os.getenv("DAGSHUB_TOKEN")
 
 
 mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
