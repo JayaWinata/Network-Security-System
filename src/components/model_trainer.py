@@ -23,8 +23,8 @@ os.environ["DAGSHUB_USERNAME"] = os.getenv("DAGSHUB_USERNAME")
 os.environ["DAGSHUB_USER_TOKEN"] = os.getenv("DAGSHUB_USER_TOKEN")
 
 
-mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
-print(mlflow.get_tracking_uri())
+# mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+# print(mlflow.get_tracking_uri())
 # mlflow.set_tracking_username(os.getenv("MLFLOW_TRACKING_USERNAME"))
 # mlflow.set_tracking_password(os.getenv("MLFLOW_TRACKING_PASSWORD"))
 
