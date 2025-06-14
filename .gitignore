@@ -9,4 +9,3 @@ Artifacts/
 mlruns/
 prediction_output/
 valid_data/
-final_model/
