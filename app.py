@@ -65,6 +65,7 @@ async def predict(request: Request, file: UploadFile=File(...)):
 
         y_pred = network_model.predict(df)
         df['predicted_column'] = y_pred
+        os.makedirs('prediction_output', exist_ok=True)
         df.to_csv('prediction_output/output.csv')
         table_html = df.to_html(classes='table table-striped')
         return templates.TemplateResponse("table.html", {'request': request, 'table': table_html})
